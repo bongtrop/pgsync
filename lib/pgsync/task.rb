@@ -93,19 +93,25 @@ module PgSync
 
         destination.truncate(table) if opts[:truncate]
 
-        from_max_id = source.max_id(table, primary_key)
+        if opts[:max_id] == -1
+          from_max_id = source.max_id(table, primary_key)
+        else
+          from_max_id = opts[:max_id]
+        end
         to_max_id = destination.max_id(table, primary_key) + 1
 
-        if to_max_id == 1
-          if opts[:min_id] == -1
+        if opts[:min_id] == -1
+          if to_max_id == 1
             from_min_id = source.min_id(table, primary_key)
-          else
-            from_min_id = opts[:min_id]
+            to_max_id = from_min_id if from_min_id > 0
           end
-          to_max_id = from_min_id if from_min_id > 0
+        else
+          to_max_id = opts[:min_id]
         end
 
         starting_id = to_max_id
+        puts "Starting from #{starting_id}"
+        puts "Ending at #{from_max_id}"
         batch_size = opts[:batch_size]
 
         i = 1

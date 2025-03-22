@@ -99,7 +99,8 @@ module PgSync
       # o.separator ""
       # o.separator "Append-only table options:"
       o.boolean "--in-batches", "sync in batches", default: false, help: false
-      o.integer "--min-id", "min id", default: -1, help: false
+      o.integer "--min-id", "sync min id", default: -1, help: false
+      o.integer "--max-id", "sync max id", default: -1, help: false
       o.integer "--batch-size", "batch size", default: 10000, help: false
       o.float "--sleep", "time to sleep between batches", default: 0, help: false
 
