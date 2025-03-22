@@ -97,7 +97,11 @@ module PgSync
         to_max_id = destination.max_id(table, primary_key) + 1
 
         if to_max_id == 1
-          from_min_id = source.min_id(table, primary_key)
+          if opts[:min_id] == -1
+            from_min_id = source.min_id(table, primary_key)
+          else
+            from_min_id = opts[:min_id]
+          end
           to_max_id = from_min_id if from_min_id > 0
         end
 
