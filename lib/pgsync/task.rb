@@ -166,7 +166,7 @@ module PgSync
         if opts[:defer_constraints_v1] || opts[:defer_constraints_v2]
           destination.execute("DELETE FROM #{quoted_table}")
         else
-          destination.truncate(table)
+          destination.truncate(table) if opts[:truncate]
         end
         copy(copy_to_command, dest_table: table, dest_fields: fields)
       end
